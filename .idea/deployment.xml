@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="pi">
+    <serverData>
+      <paths name="pi">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/workspace" local="$PROJECT_DIR$/out/artifacts/shifumixcmd_jar" web="/" />
+            <mapping deploy="/workspace/Mails" local="$PROJECT_DIR$/Mails" />
+            <mapping deploy="/projets/shifumixcmd" local="$PROJECT_DIR$/src" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
