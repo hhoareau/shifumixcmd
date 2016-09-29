@@ -94,7 +94,7 @@ public class Main {
                 html=html.replaceAll("%" + (i + 1), b.get("param" + i).toString());
                 i++;
             }
-            int start=html.toLowerCase().indexOf("<subject>");
+            int start=html.toLowerCase().indexOf("<subject>")+9;
             int end=html.toLowerCase().indexOf("</subject>");
             subject=html.substring(start,end-start);
         }
