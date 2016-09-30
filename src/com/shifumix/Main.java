@@ -33,12 +33,10 @@ public class Main {
 
         String line;
         try {
-
             br = new BufferedReader(new InputStreamReader(is));
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -124,8 +122,8 @@ public class Main {
                 JSONObject mail=(JSONObject) obj;
 
                 String html=readFile(DIRECTORY+"/"+mail.get("file").toString());
-                int i=html.indexOf("<body>");
-                html=html.substring(0,i)+mail.get("body").toString()+html.substring(i+5);
+                int i=html.indexOf("/<body>");
+                html=html.substring(0,i)+mail.get("body")+"</body></html>";
 
                 sendMail(
                         mail.get("to").toString(),
