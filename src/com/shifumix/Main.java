@@ -84,30 +84,12 @@ public class Main {
         if(from==null || from.length()==0)return;
         if(body==null || body.length()==0)return;
 
-        String html=null;
-        if(body.startsWith("{")){
-            JSONParser parser = new JSONParser();
-            JSONObject b =(JSONObject) parser.parse(body);
-            html=readFile(DIRECTORY+"/"+b.get("file").toString());
-            int i=0;
-            while(b.containsKey("param"+i)){
-                html=html.replaceAll("%" + (i + 1), b.get("param" + i).toString());
-                i++;
-            }
-            int start=html.toLowerCase().indexOf("<subject>")+9;
-            int end=html.toLowerCase().indexOf("</subject>");
-            subject=html.substring(start,end-start);
-        }
-
         try {
             javax.mail.Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(from));
             msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(dest))   ;
             msg.setSubject(subject);
-            if(html==null)
-                msg.setText(body);
-            else
-                msg.setContent(html, "text/html; charset=utf-8");
+            msg.setContent(body, "text/html; charset=utf-8");
 
             Transport.send(msg);
         } catch (AddressException e) {
@@ -140,13 +122,16 @@ public class Main {
         if(jsonObject.containsKey("items"))
             for(Object obj:(JSONArray) jsonObject.get("items")){
                 JSONObject mail=(JSONObject) obj;
-                String subject="";
-                if(mail.get("subject")!=null)subject=mail.get("subject").toString();
+
+                String html=readFile(DIRECTORY+"/"+mail.get("file").toString());
+                int i=html.indexOf("<body>");
+                html=html.substring(0,i)+mail.get("body").toString()+html.substring(i+5);
+
                 sendMail(
                         mail.get("to").toString(),
                         mail.get("from").toString(),
-                        subject,
-                        mail.get("body").toString()
+                        mail.get("subject").toString(),
+                        html
                 );
             }
     }
